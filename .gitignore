@@ -1,0 +1,7 @@
+.vscode
+
+# CHIP-8 roms are automatically downloaded by CMake
+*.ch8
+
+bin/
+build/
