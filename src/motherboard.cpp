@@ -4,8 +4,15 @@
 
 
 Error_t Motherboard::Run() {
-    m_cpu.SetProgramCounter(ROM_START_ADDRESS);
-    m_display.Initialize();
+    // Load fonts to memory
+    for (int i{ 0 }; i < FONTS_SIZE; i++) {
+        m_memory[FONTS_START_ADDRESS + i] = FONTS[i];
+    }
+    // Initialize Display and CPU
+    if (m_display.Initialize() != SUCCESS || m_cpu.Initialize() != SUCCESS) {
+        return ERROR_CODE;
+    }
+    // Game loop
     while (m_display.ShouldRun()) {
         auto instruction = m_cpu.FetchInstruction(m_memory);
         m_cpu.DecodeAndExecute(instruction, m_memory, &m_display);

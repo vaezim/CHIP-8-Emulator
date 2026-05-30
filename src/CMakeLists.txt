@@ -1,5 +1,6 @@
 
 find_package(SDL2 REQUIRED)
+find_package(SDL2_mixer REQUIRED)
 
 set(SRC_FILES
     "main.cpp"
@@ -14,4 +15,4 @@ set(SRC_FILES
 
 add_executable(${PROJECT_BINARY_NAME} ${SRC_FILES})
 
-target_link_libraries(${PROJECT_BINARY_NAME} SDL2)
+target_link_libraries(${PROJECT_BINARY_NAME} SDL2 SDL2_mixer)

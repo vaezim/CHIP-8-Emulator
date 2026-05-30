@@ -9,4 +9,5 @@ set(CMAKE_CXX_FLAGS
 )
 
 add_subdirectory(ROMs)
+add_subdirectory(audio)
 add_subdirectory(src)

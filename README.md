@@ -5,7 +5,7 @@ Interpreter of CHIP-8 language and emulator for COSMAC VIP and Telmac 1800 games
 ## Requirements
 
 ```bash
-sudo apt update && sudo apt install libsdl2-dev
+sudo apt update && sudo apt install libsdl2-dev libsdl2-mixer-dev
 ```
 
 ## Build

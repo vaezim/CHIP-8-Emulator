@@ -24,6 +24,9 @@ public:
         return m_pixels[Y * PIXELS_PER_WIDTH + X];
     }
 
+    uint8_t GetPressedKey();
+    bool IsKeyPressed(uint8_t key);
+
 private:
     SDL_Window *m_window = NULL;
     SDL_Texture *m_texture = NULL;

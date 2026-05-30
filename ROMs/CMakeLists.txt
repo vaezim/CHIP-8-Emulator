@@ -2,12 +2,17 @@ set(ROM_FILENAME_LIST
     "IBM_logo.ch8"
     "BC_test.ch8"
     "test_opcode.ch8"
+    "outlaw.ch8"
 )
 set(DOWNLOAD_URL_LIST
     "https://github.com/loktar00/chip8/raw/refs/heads/master/roms/IBM%20Logo.ch8"
     "https://github.com/cj1128/chip8-emulator/raw/refs/heads/master/rom/BC_test.ch8"
     "https://github.com/corax89/chip8-test-rom/raw/refs/heads/master/test_opcode.ch8"
+    "https://johnearnest.github.io/chip8Archive/roms/outlaw.ch8"
 )
+
+set(RUNTIME_ROMS_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ROMs")
+file(MAKE_DIRECTORY ${RUNTIME_ROMS_DIR})
 
 foreach(item IN ZIP_LISTS ROM_FILENAME_LIST DOWNLOAD_URL_LIST)
     set(ROM_FILENAME "${item_0}")
@@ -32,7 +37,7 @@ foreach(item IN ZIP_LISTS ROM_FILENAME_LIST DOWNLOAD_URL_LIST)
     if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${ROM_FILENAME}")
         file(COPY
             "${CMAKE_CURRENT_SOURCE_DIR}/${ROM_FILENAME}"
-            DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
+            DESTINATION "${RUNTIME_ROMS_DIR}"
         )
     endif()
 endforeach()

@@ -2,13 +2,11 @@
 #define DEFS_H
 
 #include <cstdint>
-#include <SDL2/SDL_pixels.h>
 
 
 #define MEMORY_SIZE_BYTES   4096
 #define ROM_START_ADDRESS   0x200
-
-#define USED_SDL_SUBSYSTEMS  SDL_INIT_VIDEO
+#define FONTS_START_ADDRESS 0x050
 
 #define WINDOW_TITLE    "CHIP-8 Emulator"
 
@@ -26,7 +24,8 @@ constexpr int WINDOW_HEIGHT = WINDOW_WIDTH / (PIXELS_PER_WIDTH / PIXELS_PER_HEIG
 constexpr uint32_t WHITE = UINT32_MAX; // RGBA
 constexpr uint32_t BLACK = 0;
 
-constexpr int FONTS_SIZE = 16 * 5;
+constexpr int BYTES_PER_FONT = 5;
+constexpr int FONTS_SIZE = 16 * BYTES_PER_FONT;
 constexpr uint8_t FONTS[] = {
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
     0x20, 0x60, 0x20, 0x20, 0x70, // 1
