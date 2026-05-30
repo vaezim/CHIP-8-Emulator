@@ -23,14 +23,8 @@ constexpr int NUM_PIXELS = PIXELS_PER_WIDTH * PIXELS_PER_HEIGHT;
 constexpr int WINDOW_WIDTH = 1280;
 constexpr int WINDOW_HEIGHT = WINDOW_WIDTH / (PIXELS_PER_WIDTH / PIXELS_PER_HEIGHT);
 
-constexpr SDL_Color Color_WHITE {
-    0xFF, // r
-    0xFF, // g
-    0xFF, // b
-    0xFF  // a
-};
-constexpr uint32_t WHITE = 0xFFFFFFFF; // RGBA
-constexpr uint32_t BLACK = 0x000000FF;
+constexpr uint32_t WHITE = UINT32_MAX; // RGBA
+constexpr uint32_t BLACK = 0;
 
 constexpr int FONTS_SIZE = 16 * 5;
 constexpr uint8_t FONTS[] = {

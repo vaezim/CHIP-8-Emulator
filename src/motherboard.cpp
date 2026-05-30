@@ -3,6 +3,17 @@
 #include "motherboard.h"
 
 
+Error_t Motherboard::Run() {
+    m_cpu.SetProgramCounter(ROM_START_ADDRESS);
+    m_display.Initialize();
+    while (m_display.ShouldRun()) {
+        auto instruction = m_cpu.FetchInstruction(m_memory);
+        m_cpu.DecodeAndExecute(instruction, m_memory, &m_display);
+        SDL_Delay(1);
+    }
+    return SUCCESS;
+}
+
 Error_t Motherboard::LoadROM(const std::string &path) {
     SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Loading ROM file: %s", path.c_str());
 
@@ -22,7 +33,7 @@ Error_t Motherboard::LoadROM(const std::string &path) {
     }
 
     file.seekg(0, std::ios::beg);
-    file.read(m_memory + ROM_START_ADDRESS, romSize);
+    file.read(reinterpret_cast<char *>(&m_memory[ROM_START_ADDRESS]), romSize);
     file.close();
 
     return SUCCESS;

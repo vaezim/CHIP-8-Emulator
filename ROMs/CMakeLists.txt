@@ -1,7 +1,12 @@
-set(ROM_FILENAME_LIST "IBM_logo.ch8" "BC_test.ch8")
+set(ROM_FILENAME_LIST
+    "IBM_logo.ch8"
+    "BC_test.ch8"
+    "test_opcode.ch8"
+)
 set(DOWNLOAD_URL_LIST
     "https://github.com/loktar00/chip8/raw/refs/heads/master/roms/IBM%20Logo.ch8"
     "https://github.com/cj1128/chip8-emulator/raw/refs/heads/master/rom/BC_test.ch8"
+    "https://github.com/corax89/chip8-test-rom/raw/refs/heads/master/test_opcode.ch8"
 )
 
 foreach(item IN ZIP_LISTS ROM_FILENAME_LIST DOWNLOAD_URL_LIST)

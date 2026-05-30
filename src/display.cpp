@@ -66,37 +66,7 @@ Error_t Display::Initialize() {
         return ERROR_CODE;
     }
 
-    // Clear screen with white color
-    if (SDL_SetRenderDrawColor(m_renderer, Color_WHITE.r, Color_WHITE.g, Color_WHITE.b, Color_WHITE.a) < 0) {
-        SDL_LogError(SDL_LOG_CATEGORY_RENDER,
-                     "Failed to set render draw color. %s", SDL_GetError());
-        return ERROR_CODE;
-    }
-    if (SDL_RenderClear(m_renderer) < 0) {
-        SDL_LogError(SDL_LOG_CATEGORY_RENDER,
-                     "Failed to clear render. %s", SDL_GetError());
-        return ERROR_CODE;
-    }
-
-    // According to SDL wiki, SDL_UpdateTexture() is slower than
-    // SDL_LockTexture()/SDL_UnlockTexture() which are recommended for
-    // higher resolutions. However as this emulator uses 2048 pixels (8Kb),
-    // copying it to GPU VRAM at 60FPS is not too slow.
-    std::fill(m_pixels, m_pixels + NUM_PIXELS, WHITE);
-    if (SDL_UpdateTexture(m_texture, NULL, m_pixels, PIXELS_PER_WIDTH * sizeof(uint32_t)) < 0) {
-        SDL_LogError(SDL_LOG_CATEGORY_RENDER,
-                     "Failed to update texture. %s", SDL_GetError());
-        return ERROR_CODE;
-    }
-    if (SDL_RenderCopy(m_renderer, m_texture, NULL, NULL) < 0) {
-        SDL_LogError(SDL_LOG_CATEGORY_RENDER,
-                     "Failed to copy texture to renderer. %s", SDL_GetError());
-        return ERROR_CODE;
-    }
-
     SDL_ShowWindow(m_window);
-    SDL_RenderPresent(m_renderer);
-
     return SUCCESS;
 }
 
@@ -125,15 +95,25 @@ bool Display::ShouldRun() {
     return true;
 }
 
+void Display::DrawPixels() {
+    // According to SDL wiki, SDL_UpdateTexture() is slower than
+    // SDL_LockTexture()/SDL_UnlockTexture() which are recommended for
+    // higher resolutions. However as this emulator uses 2048 pixels (8Kb),
+    // copying it to GPU VRAM at 60FPS is not too slow.
+    if (SDL_UpdateTexture(m_texture, NULL, m_pixels, PIXELS_PER_WIDTH * sizeof(uint32_t)) < 0) {
+        SDL_LogError(SDL_LOG_CATEGORY_RENDER,
+                     "Failed to update texture. %s", SDL_GetError());
+        return;
+    }
+    if (SDL_RenderCopy(m_renderer, m_texture, NULL, NULL) < 0) {
+        SDL_LogError(SDL_LOG_CATEGORY_RENDER,
+                     "Failed to copy texture to renderer. %s", SDL_GetError());
+        return;
+    }
+    SDL_RenderPresent(m_renderer);
+}
+
 void Display::ClearScreen() {
-    if (SDL_SetRenderDrawColor(m_renderer, Color_WHITE.r, Color_WHITE.g, Color_WHITE.b, Color_WHITE.a) < 0) {
-        SDL_LogError(SDL_LOG_CATEGORY_RENDER,
-                     "Failed to set render draw color. %s", SDL_GetError());
-        return;
-    }
-    if (SDL_RenderClear(m_renderer) < 0) {
-        SDL_LogError(SDL_LOG_CATEGORY_RENDER,
-                     "Failed to clear render. %s", SDL_GetError());
-        return;
-    }
+    std::fill(m_pixels, m_pixels + NUM_PIXELS, BLACK);
+    DrawPixels();
 }
