@@ -1,6 +1,6 @@
 # CHIP-8 Emulator
 
-Emulator of CHIP-8 programming language for COSMAC VIP microcomputers
+Interpreter of CHIP-8 language and emulator for COSMAC VIP and Telmac 1800 games
 
 ## Requirements
 
@@ -17,5 +17,9 @@ cmake -S . -B build && cmake --build build
 ## Run
 
 ```bash
-cd bin/ && ./chip8-emulator
+cd bin/ && ./chip8-emulator [ROM_FILENAME]
 ```
+
+## References
+- https://tobiasvl.github.io/blog/write-a-chip-8-emulator/
+- https://en.wikipedia.org/wiki/CHIP-8
