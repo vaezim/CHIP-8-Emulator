@@ -161,7 +161,7 @@ void CPU::DecodeAndExecute(uint16_t instruction, uint8_t *memory, Display *displ
                     return;
                 }
                 case 0xE: {
-                    m_v[0xF] = m_v[X] & 0x80; // 1000 0000
+                    m_v[0xF] = (m_v[X] >> 7) & 1; // MSB
                     m_v[X] <<= 1;
                     return;
                 }
@@ -254,7 +254,7 @@ void CPU::DecodeAndExecute(uint16_t instruction, uint8_t *memory, Display *displ
                 }
                 case 0x29: {
                     uint8_t chr = m_v[X] & 0xF;
-                    m_i = memory[FONTS_START_ADDRESS + chr * BYTES_PER_FONT];
+                    m_i = FONTS_START_ADDRESS + chr * BYTES_PER_FONT;
                     return;
                 }
                 case 0x33: {
@@ -265,13 +265,13 @@ void CPU::DecodeAndExecute(uint16_t instruction, uint8_t *memory, Display *displ
                     return;
                 }
                 case 0x55: {
-                    for (int i{0}; i <= X; i++) {
-                        memory[m_i + i] = m_v[X];
+                    for (uint16_t i{0}; i <= static_cast<uint16_t>(X); i++) {
+                        memory[m_i + i] = m_v[i];
                     }
                     return;
                 }
                 case 0x65: {
-                    for (int i{0}; i <= X; i++) {
+                    for (uint16_t i{0}; i <= static_cast<uint16_t>(X); i++) {
                         m_v[i] = memory[m_i + i];
                     }
                     return;

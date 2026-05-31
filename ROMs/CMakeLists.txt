@@ -3,12 +3,14 @@ set(ROM_FILENAME_LIST
     "BC_test.ch8"
     "test_opcode.ch8"
     "outlaw.ch8"
+    "slippery_slope.ch8"
 )
 set(DOWNLOAD_URL_LIST
     "https://github.com/loktar00/chip8/raw/refs/heads/master/roms/IBM%20Logo.ch8"
     "https://github.com/cj1128/chip8-emulator/raw/refs/heads/master/rom/BC_test.ch8"
     "https://github.com/corax89/chip8-test-rom/raw/refs/heads/master/test_opcode.ch8"
     "https://johnearnest.github.io/chip8Archive/roms/outlaw.ch8"
+    "https://johnearnest.github.io/chip8Archive/roms/slipperyslope.ch8"
 )
 
 set(RUNTIME_ROMS_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ROMs")
