@@ -12,11 +12,25 @@ Error_t Motherboard::Run() {
     if (m_display.Initialize() != SUCCESS || m_cpu.Initialize() != SUCCESS) {
         return ERROR_CODE;
     }
-    // Game loop
+    // Game loop:
+    // Every loop should take TIME_PER_FRAME_MLLISECONDS milliseconds.
+    // CPU will run TARGET_INSTRUCTIONS_PER_FRAME instructions each loop.
+    // At the end of every loop, timers will be decremented and (if a draw
+    // instruction was executed during loop runtime) display will be updated.
     while (m_display.ShouldRun()) {
-        auto instruction = m_cpu.FetchInstruction(m_memory);
-        m_cpu.DecodeAndExecute(instruction, m_memory, &m_display);
-        SDL_Delay(1);
+        auto start = SDL_GetTicks();
+        for (int i{ 0 }; i < TARGET_INSTRUCTIONS_PER_FRAME; i++) {
+            auto instruction = m_cpu.FetchInstruction(m_memory);
+            m_cpu.DecodeAndExecute(instruction, m_memory, &m_display);
+        }
+        m_cpu.DecrementTimers();
+        if (m_display.ShouldUpdateScreen()) {
+            m_display.RenderPixels();
+        }
+        auto loopDuration = SDL_GetTicks() - start;
+        if (loopDuration < TARGET_MLLISECONDS_PER_FRAME) {
+            SDL_Delay(TARGET_MLLISECONDS_PER_FRAME - loopDuration);
+        }
     }
     return SUCCESS;
 }

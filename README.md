@@ -19,7 +19,7 @@ cmake -S . -B build && cmake --build build
 ## Run
 
 ```bash
-cd bin/ && ./chip8-emulator [ROM_FILENAME]
+cd bin/ && ./chip8-emulator [ROM_FILE_PATH]
 ```
 
 ## References

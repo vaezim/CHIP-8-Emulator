@@ -101,7 +101,7 @@ bool Display::ShouldRun() {
  * higher resolutions. However as this emulator uses 2048 pixels (8Kb),
  * copying it to GPU VRAM at 60FPS is not too slow.
  */
-void Display::DrawPixels() {
+void Display::RenderPixels() {
     if (SDL_UpdateTexture(m_texture, NULL, m_pixels, PIXELS_PER_WIDTH * sizeof(uint32_t)) < 0) {
         SDL_LogError(SDL_LOG_CATEGORY_RENDER,
                      "Failed to update texture. %s", SDL_GetError());
@@ -113,11 +113,11 @@ void Display::DrawPixels() {
         return;
     }
     SDL_RenderPresent(m_renderer);
+    m_screenUpdated = false;
 }
 
-void Display::ClearScreen() {
-    std::fill(m_pixels, m_pixels + NUM_PIXELS, BLACK);
-    DrawPixels();
+void Display::ClearPixels() {
+    std::fill(m_pixels, m_pixels + NUM_DISPLAY_PIXELS, BLACK);
 }
 
 /**

@@ -39,6 +39,16 @@ CPU::~CPU() {
     SDL_Quit();
 }
 
+void CPU::DecrementTimers() {
+    if (m_dt > 0) {
+        m_dt -= 1;
+    }
+    if (m_st > 0) {
+        Mix_PlayChannel(-1, m_beepSound, 0);
+        m_st -= 1;
+    }
+}
+
 uint16_t CPU::FetchInstruction(uint8_t *memory) {
     if (m_pc >= MEMORY_SIZE_BYTES - 1) {
         SDL_LogError(SDL_LOG_CATEGORY_SYSTEM,
@@ -60,19 +70,10 @@ void CPU::DecodeAndExecute(uint16_t instruction, uint8_t *memory, Display *displ
     uint8_t   NN = instruction & 0xFF;          // Third and Fourth nibbles
     uint16_t NNN = instruction & 0xFFF;         // Second, Third, and Fourth nibbles (12-bit memory address)
 
-    // Decrementing timers
-    if (m_dt > 0) {
-        m_dt -= 1;
-    }
-    if (m_st > 0) {
-        Mix_PlayChannel(-1, m_beepSound, 0);
-        m_st -= 1;
-    }
-
     switch (n1) {
         case 0: {
             if (instruction == 0x00E0) {
-                display->ClearScreen();
+                display->ClearPixels();
                 return;
             }
             if (instruction == 0x00EE) { // Function call
@@ -204,7 +205,7 @@ void CPU::DecodeAndExecute(uint16_t instruction, uint8_t *memory, Display *displ
                     }
                 }
             }
-            display->DrawPixels();
+            display->ScreenIsUpdated();
             return;
         }
         case 0xE: { // If key pressed
@@ -245,8 +246,8 @@ void CPU::DecodeAndExecute(uint16_t instruction, uint8_t *memory, Display *displ
                 }
                 case 0x0A: { // Wait for a key press. Blocking instruction
                     uint8_t key = display->GetPressedKey();
-                    if (key > 0xF) { // No key is pressed
-                        m_pc -= 2; // Repeat this instruction
+                    if (key > 0xF) { // No key is pressed. Repeat this instruction
+                        m_pc -= 2;
                         return;
                     }
                     m_v[X] = key;

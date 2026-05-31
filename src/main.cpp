@@ -8,7 +8,7 @@
 int main(int argc, char *argv[]) {
 
     if (argc != 2) {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Usage: ./chip8-emulator [ROM_FILENAME]");
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Usage: ./chip8-emulator [ROM_FILE_PATH]");
         return ERROR_CODE;
     }
 

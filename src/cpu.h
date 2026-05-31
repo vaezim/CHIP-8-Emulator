@@ -20,6 +20,7 @@ public:
 
     Error_t Initialize();
 
+    void DecrementTimers();
     uint16_t FetchInstruction(uint8_t *memory);
     void DecodeAndExecute(uint16_t instruction, uint8_t *memory, Display *display);
 

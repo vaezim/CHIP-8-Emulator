@@ -4,26 +4,38 @@
 #include <cstdint>
 
 
+#define WINDOW_TITLE    "CHIP-8 Emulator"
+
+// Memory addresses
 #define MEMORY_SIZE_BYTES   4096
 #define ROM_START_ADDRESS   0x200
 #define FONTS_START_ADDRESS 0x050
 
-#define WINDOW_TITLE    "CHIP-8 Emulator"
+// FPS and CPU clocks/s
+constexpr int TARGET_FPS = 60;
+constexpr int TARGET_MLLISECONDS_PER_FRAME = 1000 / TARGET_FPS;
+constexpr int TARGET_INSTRUCTIONS_PER_SECOND = 700;
+constexpr int TARGET_INSTRUCTIONS_PER_FRAME = TARGET_INSTRUCTIONS_PER_SECOND / TARGET_FPS;
 
+// Error type
 typedef int Error_t;
 constexpr Error_t SUCCESS = 0;
 constexpr Error_t ERROR_CODE = 1;
 
+// Pixels
 constexpr int PIXELS_PER_WIDTH = 64;
 constexpr int PIXELS_PER_HEIGHT = 32;
-constexpr int NUM_PIXELS = PIXELS_PER_WIDTH * PIXELS_PER_HEIGHT;
+constexpr int NUM_DISPLAY_PIXELS = PIXELS_PER_WIDTH * PIXELS_PER_HEIGHT;
 
+// Window size
 constexpr int WINDOW_WIDTH = 1280;
 constexpr int WINDOW_HEIGHT = WINDOW_WIDTH / (PIXELS_PER_WIDTH / PIXELS_PER_HEIGHT);
 
+// Colors
 constexpr uint32_t WHITE = UINT32_MAX; // RGBA
 constexpr uint32_t BLACK = 0;
 
+// Fonts
 constexpr int BYTES_PER_FONT = 5;
 constexpr int FONTS_SIZE = 16 * BYTES_PER_FONT;
 constexpr uint8_t FONTS[] = {

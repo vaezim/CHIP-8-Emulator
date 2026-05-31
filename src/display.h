@@ -14,8 +14,12 @@ public:
     Error_t Initialize();
     bool ShouldRun();
 
-    void DrawPixels();
-    void ClearScreen();
+    void ClearPixels();
+    void RenderPixels();
+
+    // Used by CPU to signal Display to re-render pixels
+    inline void ScreenIsUpdated() { m_screenUpdated = true; }
+    inline bool ShouldUpdateScreen() { return m_screenUpdated; }
 
     inline void FlipPixel(int X, int Y) {
         m_pixels[Y * PIXELS_PER_WIDTH + X] = ~m_pixels[Y * PIXELS_PER_WIDTH + X];
@@ -28,11 +32,13 @@ public:
     bool IsKeyPressed(uint8_t key);
 
 private:
-    SDL_Window *m_window = NULL;
-    SDL_Texture *m_texture = NULL;
-    SDL_Renderer *m_renderer = NULL;
+    bool m_screenUpdated{ false };
 
-    uint32_t m_pixels[NUM_PIXELS] = {};
+    SDL_Window *m_window = nullptr;
+    SDL_Texture *m_texture = nullptr;
+    SDL_Renderer *m_renderer = nullptr;
+
+    uint32_t m_pixels[NUM_DISPLAY_PIXELS] = {};
 };
 
 #endif // DISPLAY_H
